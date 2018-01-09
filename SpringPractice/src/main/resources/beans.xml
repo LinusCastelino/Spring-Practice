@@ -1,0 +1,86 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<bean class="com.linus.events.SampleEventListener" />
+	<bean class="com.linus.events.SampleEventPublisher" />
+	
+	<bean id="fruit1" class="com.linus.food.Fruit" >
+		<property name="fruitName" value="Orange" />
+	</bean>
+	<bean id="fruit2" class="com.linus.food.Fruit" >
+		<property name="fruitName" value="Apple" />
+	</bean>
+	<bean id="fruit3" class="com.linus.food.Fruit" >
+		<property name="fruitName" value="Banana" />
+	</bean>
+	<bean id="fruitList" class="com.linus.food.Fruit">
+		<property name="listOfFruits">
+			<list>
+				<value>Apple</value>
+				<value>Banana</value>
+				<value>Orange</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="vegetable" class="com.linus.food.Vegetable" />
+	<bean id="grain" class="com.linus.food.Grain" />	
+	<bean id="dairy" class="com.linus.food.Dairy" />
+	<bean id="meat" class="com.linus.food.Meat" />
+	
+	<bean id="meal" class="com.linus.food.Meal" />
+	
+	<bean id="mealUsingIndex" class="com.linus.food.Meal">
+		<constructor-arg index="0">
+			<list>
+				<ref bean="fruit1" />
+				<ref bean="fruit2" />
+				<ref bean="fruit3" />
+			</list>
+		</constructor-arg>
+		<constructor-arg index="1" ref="vegetable" />
+		<constructor-arg index="2" ref="grain" />
+		<constructor-arg index="3" ref="dairy"/>
+		<constructor-arg index="4" ref="meat"/>
+	</bean>
+	
+	<bean id="mealUsingName" class="com.linus.food.Meal">
+		<constructor-arg name="frts">
+			<list>
+				<ref bean="fruit1" />
+				<ref bean="fruit2" />
+				<ref bean="fruit3" />
+			</list>
+		</constructor-arg>
+		<constructor-arg name="veg" ref="vegetable" />
+		<constructor-arg name="grn" ref="grain" />
+		<constructor-arg name="dry" ref="dairy"/>
+		<constructor-arg name="mt" ref="meat"/>
+	</bean>
+	
+	<bean id="fruits" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<ref bean="fruit1" />
+				<ref bean="fruit2" />
+				<ref bean="fruit3" />
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<bean id="mealAutowiredByName" class="com.linus.food.Meal" autowire="byName" />
+	
+	<bean id="mealAutowiredByType" class="com.linus.food.Meal" autowire="byType"
+		init-method="customInitMethod" destroy-method="customDestroyMethod" />
+		
+	<bean id="mealConstructorAutowired" class="com.linus.food.Meal" autowire="constructor" />
+		 
+</beans>
