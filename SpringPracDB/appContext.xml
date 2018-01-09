@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+	<context:property-placeholder location="/src/main/java/com/linus/assets/dbInfo.properties" />
+
+	<bean id="myBasicDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${dbDriver}" />
+		<property name="url" value="${dbUrl}" />
+		<property name="username" value="${dbUsername}" />
+		<property name="password" value="${dbPassword}" />
+	</bean>
+	
+	<context:component-scan base-package="com.linus.model" />
+
+	<bean id="fGroupForDB" class="com.linus.model.FoodGroup">
+		<property name="id" value="7" />
+		<property name="name" value="RandomFG" />
+		<property name="description" value="Not a real food group" />
+	</bean>
+	
+	<bean id="myTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="myBasicDataSource" />
+	</bean>
+	
+	<tx:annotation-driven />
+	
+</beans>
